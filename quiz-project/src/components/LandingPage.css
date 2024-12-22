@@ -1,0 +1,68 @@
+.landing-page {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .header {
+    background: linear-gradient(to right, #4caf50, #81c784);
+    color: white;
+    padding: 40px;
+  }
+  
+  .header h1 {
+    font-size: 3em;
+  }
+  
+  .header p {
+    font-size: 1.2em;
+    margin: 10px 0 20px;
+  }
+  
+  .cta-buttons .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1em;
+    color: white;
+  }
+  
+  .btn-primary {
+    background-color: #2196f3;
+  }
+  
+  .btn-secondary {
+    background-color: #ff9800;
+  }
+  
+  .features {
+    margin: 40px 0;
+  }
+  
+  .feature-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .feature {
+    width: 30%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .feature h3 {
+    color: #4caf50;
+  }
+  
+  .footer {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #666;
+  }
+  

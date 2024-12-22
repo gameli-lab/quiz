@@ -17,6 +17,10 @@ const quizSchema = new mongoDB.Schema({
         type: mongoDB.Schema.Types.ObjectId,
         ref: 'User'
     },
+    timeLimit: {
+        type: Number,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now

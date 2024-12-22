@@ -1,2 +1,3 @@
 #ignore node directories
 node_modules/
+.env

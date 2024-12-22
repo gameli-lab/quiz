@@ -1,4 +1,5 @@
 import Quiz from '../models/Quiz';
+const sendEmail = require("../utils/email");
 //import User from '../models/User';
 
 // Teacher uploads quiz
@@ -73,3 +74,26 @@ exports.deleteQuiz = async (res, req) => {
         res.status(500).json({ message: error.message});
     }
 };
+
+exports.approveQuiz = async (req, res) => {
+    const { quizId } = req.params;
+  
+    try {
+      const quiz = await Quiz.findById(quizId).populate("uploader", "email name");
+      if (!quiz) return res.status(404).json({ message: "Quiz not found." });
+  
+      quiz.approved = true;
+      await quiz.save();
+  
+      // Notify the teacher
+      await sendEmail(
+        quiz.uploader.email,
+        "Quiz Approved",
+        `Dear ${quiz.uploader.name}, your quiz titled "${quiz.title}" has been approved and is now live for students.`
+      );
+  
+      res.status(200).json({ message: "Quiz approved successfully." });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
