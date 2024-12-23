@@ -1,0 +1,40 @@
+.dashboard-container {
+    padding: 20px;
+  }
+  
+  .dashboard-container h1 {
+    font-size: 2.5rem;
+    color: #4caf50;
+  }
+  
+  .dashboard-section {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+  }
+  
+  .dashboard-section h2 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  button {
+    padding: 10px 15px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  

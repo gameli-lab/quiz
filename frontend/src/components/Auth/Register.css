@@ -1,0 +1,160 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  background: white;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.form-group label {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  padding: 0 5px;
+  color: #666;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #1976d2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+.form-group input:focus ~ label,
+.form-group input:not(:placeholder-shown) ~ label,
+.form-group select:focus ~ label,
+.form-group select:not(:placeholder-shown) ~ label {
+  top: 0;
+  font-size: 12px;
+  color: #1976d2;
+  transform: translateY(-50%);
+}
+
+button {
+  padding: 12px 20px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #1565c0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.error-message {
+  color: #d32f2f;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.success-message {
+  color: #2e7d32;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.page-transition-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-link a {
+  color: #1976d2;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+  color: #1565c0;
+  text-decoration: underline;
+}
+
+/* Add responsiveness */
+@media (max-width: 480px) {
+  .form-container {
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  button {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+  
