@@ -48,6 +48,20 @@ const quizSchema = new mongoDB.Schema({
     type: Boolean,
     default: false,
   },
+  attachments: [
+    {
+      filename: String,
+      path: String,
+      mimetype: String,
+      uploadedAt: { type: Date, default: Date.now },
+    },
+  ],
+  isProcessed: { type: Boolean, default: false },
+  processingStatus: {
+    type: String,
+    enum: ["pending", "processing", "completed", "failed"],
+    default: "pending",
+  },
 });
 
 const CompletedQuizSchema = new mongoDB.Schema({

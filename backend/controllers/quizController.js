@@ -1,5 +1,6 @@
 import { Quiz, CompletedQuiz } from "../models/Quiz.js";
 import sendEmail from "../utils/email.js";
+import { processQuizFile } from "../services/quizProcessingService.js";
 // import User from '../models/User.js';
 
 // Teacher uploads quiz
@@ -185,6 +186,62 @@ export const getQuizResults = async (req, res) => {
       .sort({ completedAt: -1 });
 
     res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const createQuiz = async (req, res) => {
+  try {
+    const { title, subject, description, timeLimit, difficulty } = req.body;
+
+    // Validate required fields
+    if (!title || !subject || !timeLimit || !difficulty) {
+      return res.status(400).json({
+        message:
+          "Missing required fields. Please provide title, subject, timeLimit, and difficulty.",
+      });
+    }
+
+    // Validate time limit is a positive number
+    if (timeLimit <= 0) {
+      return res.status(400).json({
+        message: "Time limit must be a positive number.",
+      });
+    }
+
+    const files = req.files;
+    const isAdmin = req.user.role === "admin";
+
+    const quiz = new Quiz({
+      title,
+      subject,
+      description,
+      timeLimit: parseInt(timeLimit),
+      difficulty,
+      uploader: req.user._id,
+      attachments: files.map((file) => ({
+        filename: file.originalname,
+        path: file.path,
+        mimetype: file.mimetype,
+      })),
+      approved: isAdmin, // Auto-approve for admin
+      isProcessed: false,
+      processingStatus: "pending",
+      questions: [], // Will be populated by the file processor
+    });
+
+    await quiz.save();
+
+    // Process files asynchronously
+    processQuizFile(quiz._id, files).catch(console.error);
+
+    res.status(201).json({
+      message: isAdmin
+        ? "Quiz created and approved successfully"
+        : "Quiz created and pending approval",
+      quiz,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

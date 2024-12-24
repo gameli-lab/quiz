@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import QuizManagement from "../Admin/QuizManagement";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -150,6 +151,14 @@ const AdminDashboard = () => {
           >
             Announcements
           </button>
+          <button
+            className={`nav-btn ${
+              activeTab === "quiz-management" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("quiz-management")}
+          >
+            Quiz Management
+          </button>
         </nav>
         <button className="logout-btn" onClick={handleLogout}>
           Logout
@@ -254,6 +263,13 @@ const AdminDashboard = () => {
               Send Announcement
             </button>
           </div>
+        </div>
+      )}
+
+      {activeTab === "quiz-management" && (
+        <div className="section">
+          <h2>Quiz Management</h2>
+          <QuizManagement />
         </div>
       )}
     </div>

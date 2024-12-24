@@ -11,7 +11,9 @@ import {
   getCompletedQuizzes,
   getQuizResults,
   getQuizQuestions,
+  createQuiz,
 } from "../controllers/quizController.js";
+import { upload } from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
 
@@ -44,5 +46,12 @@ router.get("/questions/:quizId", verifyToken, getQuizQuestions);
 
 //Get user profile
 router.get("/profile", verifyToken, getUserProfile);
+
+router.post(
+  "/create",
+  verifyToken,
+  upload.array("files", 5), // Allow up to 5 files
+  createQuiz
+);
 
 export default router;
