@@ -8,8 +8,8 @@ export const register = async (req, res) => {
     return res.status(400).json({ message: "Invalid role selected" });
   }
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword, role });
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password, role });
     await newUser.save();
     res.status(200).json({ message: "Registration successful" });
   } catch (error) {

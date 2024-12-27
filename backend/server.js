@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import seedAdmin from "./app.js";
 
 // Load env variables
 dotenv.config();
@@ -21,8 +22,12 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => {
+  .then(async () => {
     console.log("Connected to MongoDB");
+
+    // Seed admin account if it doesn't exist
+    await seedAdmin();
+
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });

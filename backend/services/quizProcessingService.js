@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import pdf from "pdf-parse";
+import pdfParse from "pdf-parse/lib/pdf-parse.js"; // import pdf from "pdf-parse";
 import mammoth from "mammoth";
 import { Quiz } from "../models/Quiz.js";
 
