@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import pdfParse from "pdf-parse/lib/pdf-parse.js"; // import pdf from "pdf-parse";
 import mammoth from "mammoth";
-import { Quiz } from "../models/Quiz.js";
+import Quiz from "../models/Quiz.js";
 
 const validateQuestion = (question) => {
   // Ensure all required fields are present and valid

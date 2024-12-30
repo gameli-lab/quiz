@@ -1,42 +1,51 @@
-import mongoDB, { model } from "mongoose";
-import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
-const userSchema = new mongoDB.Schema({
-  name: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ["student", "teacher", "admin"],
+      default: "student",
+    },
+    bio: {
+      type: String,
+      default: "",
+    },
+    avatar: {
+      type: String,
+      default: "default-avatar.png",
+    },
+    suspended: {
+      type: Boolean,
+      default: false,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    lastActivity: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ["student", "teacher", "admin"],
-    default: "student",
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
-//Hashing password
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
-});
+const User = mongoose.model("User", userSchema);
 
-const User = mongoDB.model("User", userSchema);
 export default User;

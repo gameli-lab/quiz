@@ -1,0 +1,49 @@
+:root[data-theme="light"] {
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --primary-color: #1976d2;
+  --secondary-color: #f5f5f5;
+  --border-color: #e0e0e0;
+  --card-background: #ffffff;
+  --hover-color: #f0f0f0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme="dark"] {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --primary-color: #90caf9;
+  --secondary-color: #1e1e1e;
+  --border-color: #333333;
+  --card-background: #1e1e1e;
+  --hover-color: #2c2c2c;
+  --shadow-color: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+input, select, textarea {
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+/* Add hover effects */
+button:hover {
+  background-color: var(--hover-color);
+} 

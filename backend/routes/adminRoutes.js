@@ -1,5 +1,5 @@
 import express from "express";
-import { verifyToken, isAdmin } from "../middlewares/authMiddleware.js";
+import { authenticateToken } from "../middleware/auth.js";
 import { logActivity } from "../middlewares/securityMiddleware.js";
 import {
   getAllUsers,
@@ -7,8 +7,15 @@ import {
   updateUserStatus,
   deleteUser,
   sendAnnouncement,
-  bulkApproveQuizzes,
   exportReport,
+  getDashboardStats,
+  getAnnouncements,
+  createAnnouncement,
+  deleteAnnouncement,
+  getRecentAnnouncements,
+  getAllQuizzes,
+  updateQuizStatus,
+  deleteQuiz,
 } from "../controllers/adminController.js";
 import {
   getSystemSettings,
@@ -23,40 +30,30 @@ import {
 const router = express.Router();
 
 // User Management
-router.get("/users", verifyToken, isAdmin, getAllUsers);
-router.post("/users/:userId/suspend", verifyToken, isAdmin, updateUserStatus);
-router.delete("/users/:userId", verifyToken, isAdmin, deleteUser);
+router.get("/users", authenticateToken, getAllUsers);
+router.post("/users/:userId/suspend", authenticateToken, updateUserStatus);
+router.delete("/users/:userId", authenticateToken, deleteUser);
 
 // Analytics
-router.get("/analytics", verifyToken, isAdmin, getAnalytics);
-router.get("/export-report", verifyToken, isAdmin, exportReport);
+router.get("/analytics", authenticateToken, getAnalytics);
+router.get("/export-report", authenticateToken, exportReport);
 
 // System Management
-router.post("/announcement", verifyToken, isAdmin, sendAnnouncement);
-router.get("/settings", verifyToken, isAdmin, getSystemSettings);
-router.put("/settings", verifyToken, isAdmin, updateSystemSettings);
+router.get("/settings", authenticateToken, getSystemSettings);
+router.put("/settings", authenticateToken, updateSystemSettings);
 
 // Quiz Management
-router.post("/quizzes/bulk-approve", verifyToken, isAdmin, bulkApproveQuizzes);
+router.get("/quizzes", authenticateToken, getAllQuizzes);
+router.post("/quizzes/:quizId/status", authenticateToken, updateQuizStatus);
+router.delete("/quizzes/:quizId", authenticateToken, deleteQuiz);
 
-router.get("/settings", verifyToken, isAdmin, getSystemSettings);
-router.put(
-  "/settings",
-  verifyToken,
-  isAdmin,
-  logActivity,
-  updateSystemSettings
-);
+// Dashboard stats route
+router.get("/dashboard/stats", authenticateToken, getDashboardStats);
 
-// Activity Logs
-router.get("/activity-logs", verifyToken, isAdmin, getActivityLogs);
-
-// Analytics
-router.get("/analytics", verifyToken, isAdmin, getSystemAnalytics);
-
-// Backup Management
-router.post("/backup", verifyToken, isAdmin, logActivity, createBackup);
-router.post("/restore", verifyToken, isAdmin, logActivity, restoreBackup);
-router.get("/backups", verifyToken, isAdmin, getBackups);
+// Announcement routes
+router.get("/announcements", authenticateToken, getAnnouncements);
+router.get("/announcements/recent", authenticateToken, getRecentAnnouncements);
+router.post("/announcements", authenticateToken, createAnnouncement);
+router.delete("/announcements/:id", authenticateToken, deleteAnnouncement);
 
 export default router;

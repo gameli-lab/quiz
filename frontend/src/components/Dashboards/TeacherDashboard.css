@@ -1,0 +1,266 @@
+.teacher-dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  color: var(--text-color);
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--card-background);
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card svg {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+}
+
+.stat-content h3 {
+  color: var(--text-color);
+  font-size: 1rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.stat-content p {
+  color: var(--text-color);
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0.2rem 0 0 0;
+}
+
+.actions-section {
+  margin-bottom: 2rem;
+}
+
+.create-quiz-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.create-quiz-btn:hover {
+  background: var(--hover-color);
+  transform: translateY(-2px);
+}
+
+.create-quiz-btn svg {
+  font-size: 1.5rem;
+}
+
+.quizzes-section {
+  background: var(--card-background);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.section-header svg {
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.section-header h2 {
+  color: var(--text-color);
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.quizzes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.quiz-card {
+  background: var(--secondary-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.quiz-card:hover {
+  transform: translateY(-3px);
+}
+
+.quiz-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.quiz-card-header h3 {
+  color: var(--text-color);
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.status {
+  padding: 0.3rem 0.6rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status.draft {
+  background: #ff9800;
+  color: white;
+}
+
+.status.published {
+  background: #4caf50;
+  color: white;
+}
+
+.status.archived {
+  background: #9e9e9e;
+  color: white;
+}
+
+.quiz-description {
+  color: var(--text-color);
+  opacity: 0.8;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.quiz-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.quiz-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  justify-content: center;
+}
+
+.action-btn svg {
+  font-size: 1.1rem;
+}
+
+.action-btn.edit {
+  background: var(--primary-color);
+  color: var(--text-color);
+}
+
+.action-btn.results {
+  background: #4caf50;
+  color: white;
+}
+
+.action-btn.delete {
+  background: #f44336;
+  color: white;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .teacher-dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-card svg {
+    font-size: 2rem;
+  }
+
+  .stat-content p {
+    font-size: 1.5rem;
+  }
+
+  .quizzes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quiz-actions {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+} 

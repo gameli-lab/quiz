@@ -64,13 +64,6 @@ const quizSchema = new mongoDB.Schema({
   },
 });
 
-const CompletedQuizSchema = new mongoDB.Schema({
-  user: { type: mongoDB.Schema.Types.ObjectId, ref: "User", required: true },
-  quiz: { type: mongoDB.Schema.Types.ObjectId, ref: "Quiz", required: true },
-  completedAt: { type: Date, default: Date.now },
-});
-
 const Quiz = mongoDB.model("Quiz", quizSchema);
-const CompletedQuiz = mongoDB.model("CompletedQuiz", CompletedQuizSchema);
 
-export { Quiz, CompletedQuiz };
+export default Quiz;

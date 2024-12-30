@@ -2,7 +2,10 @@ import SystemSettings from "../models/SystemSettings.js";
 import ActivityLog from "../models/ActivityLog.js";
 import { BackupService } from "../services/backupService.js";
 import User from "../models/User.js";
-import { Quiz, CompletedQuiz } from "../models/Quiz.js";
+import Quiz from "../models/Quiz.js";
+import CompletedQuiz from "../models/CompletedQuiz.js";
+import fs from "fs/promises";
+import path from "path";
 
 const backupService = new BackupService();
 

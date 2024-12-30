@@ -34,3 +34,18 @@ export const login = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const verify = async (req, res) => {
+  try {
+    // If the middleware passed, the token is valid
+    res.status(200).json({ 
+      message: "Token is valid",
+      user: {
+        id: req.user.id,
+        role: req.user.role
+      }
+    });
+  } catch (error) {
+    res.status(401).json({ message: "Token verification failed" });
+  }
+};

@@ -1,7 +1,8 @@
-import { Quiz, CompletedQuiz } from "../models/Quiz.js";
+import Quiz from "../models/Quiz.js";
+import CompletedQuiz from "../models/CompletedQuiz.js";
+import User from "../models/User.js";
 import sendEmail from "../utils/email.js";
 import { processQuizFile } from "../services/quizProcessingService.js";
-// import User from '../models/User.js';
 
 // Teacher uploads quiz
 export const uploadQuiz = async (req, res) => {
@@ -77,15 +78,16 @@ export const deleteQuiz = async (req, res) => {
   const { quizId } = req.params;
   try {
     const quiz = await Quiz.findById(quizId);
-    if (!quiz) return;
-    res.status(404).json({ message: "Quiz not found." });
+    if (!quiz) {
+      return res.status(404).json({ message: "Quiz not found." });
+    }
     //Make sure only admin and the uploader can delete
     if (req.user.role !== "admin" && req.user.id !== String(quiz.uploader)) {
       return res
         .status(403)
         .json({ message: "You are not authorised to delete this quiz." });
     }
-    await quiz.remove();
+    await Quiz.deleteOne({ _id: quiz._id });
     res.status(200).json({ message: "Quiz deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });

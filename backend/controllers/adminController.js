@@ -1,15 +1,62 @@
 import User from "../models/User.js";
-import { Quiz, CompletedQuiz } from "../models/Quiz.js";
+import Quiz from "../models/Quiz.js";
+import CompletedQuiz from "../models/CompletedQuiz.js";
 import sendEmail from "../utils/email.js";
+import Announcement from "../models/Announcement.js";
 
 // User Management
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({ role: { $ne: "admin" } })
-      .select("-password")
-      .sort({ createdAt: -1 });
-    res.status(200).json(users);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    let filter = {};
+
+    // Add search filter if provided
+    if (req.query.search) {
+      filter.$or = [
+        { name: { $regex: req.query.search, $options: "i" } },
+        { email: { $regex: req.query.search, $options: "i" } },
+      ];
+    }
+
+    // Add role filter if provided
+    if (req.query.role && req.query.role !== "") {
+      filter.role = req.query.role;
+    }
+
+    // Add status filter if provided
+    if (req.query.status && req.query.status !== "") {
+      filter.suspended = req.query.status === "suspended";
+    }
+
+    // Debug log
+    console.log("Filter:", filter);
+    console.log("Skip:", skip);
+    console.log("Limit:", limit);
+
+    const [users, total] = await Promise.all([
+      User.find(filter)
+        .select("-password")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit),
+      User.countDocuments(filter),
+    ]);
+
+    // Debug log
+    console.log("Found users:", users.length);
+    console.log("Total count:", total);
+
+    res.status(200).json({
+      users,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error) {
+    console.error("Error in getAllUsers:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -49,10 +96,11 @@ export const deleteUser = async (req, res) => {
     // Delete user's quizzes and completed quizzes
     await Quiz.deleteMany({ uploader: user._id });
     await CompletedQuiz.deleteMany({ user: user._id });
-    await user.remove();
+    await User.deleteOne({ _id: user._id });
 
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
+    console.error("Error deleting user:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -138,39 +186,206 @@ export const sendAnnouncement = async (req, res) => {
 };
 
 // Quiz Management
-export const bulkApproveQuizzes = async (req, res) => {
+export const getAllQuizzes = async (req, res) => {
   try {
-    const { quizIds, approved, feedback } = req.body;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-    await Quiz.updateMany(
-      { _id: { $in: quizIds } },
-      {
-        $set: {
-          approved,
-          feedback: feedback || "",
-        },
-      }
-    );
+    let filter = {};
 
-    // Notify teachers about quiz approval status
-    const quizzes = await Quiz.find({ _id: { $in: quizIds } }).populate(
-      "uploader",
-      "email"
-    );
+    // Add search filter if provided
+    if (req.query.search) {
+      filter.title = { $regex: req.query.search, $options: "i" };
+    }
 
-    const emailPromises = quizzes.map((quiz) =>
-      sendEmail(
-        quiz.uploader.email,
-        `Quiz ${approved ? "Approved" : "Rejected"}`,
-        `Your quiz "${quiz.title}" has been ${
-          approved ? "approved" : "rejected"
-        }.${feedback ? `\n\nFeedback: ${feedback}` : ""}`
-      )
-    );
-    await Promise.all(emailPromises);
+    // Add subject filter if provided
+    if (req.query.subject) {
+      filter.subject = req.query.subject;
+    }
 
-    res.status(200).json({ message: "Quizzes updated successfully" });
+    // Add status filter if provided
+    if (req.query.status) {
+      filter.status = req.query.status;
+    }
+
+    const [quizzes, total] = await Promise.all([
+      Quiz.find(filter)
+        .populate("uploader", "name email")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit),
+      Quiz.countDocuments(filter),
+    ]);
+
+    res.status(200).json({
+      quizzes,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error) {
+    console.error("Error in getAllQuizzes:", error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateQuizStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const quiz = await Quiz.findById(req.params.quizId);
+
+    if (!quiz) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    quiz.status = status;
+    await quiz.save();
+
+    // Notify the quiz uploader about the status change
+    await sendEmail(
+      quiz.uploader.email,
+      `Quiz Status Updated`,
+      `Your quiz "${quiz.title}" status has been updated to ${status}.`
+    );
+
+    res.status(200).json({ message: "Quiz status updated successfully" });
+  } catch (error) {
+    console.error("Error updating quiz status:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteQuiz = async (req, res) => {
+  try {
+    const quiz = await Quiz.findById(req.params.quizId);
+
+    if (!quiz) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    // Delete all completed quizzes associated with this quiz
+    await CompletedQuiz.deleteMany({ quiz: quiz._id });
+
+    // Delete the quiz itself using deleteOne instead of remove
+    await Quiz.deleteOne({ _id: quiz._id });
+
+    // Notify the quiz uploader about the deletion
+    await sendEmail(
+      quiz.uploader.email,
+      "Quiz Deleted",
+      `Your quiz "${quiz.title}" has been deleted by an administrator.`
+    );
+
+    res.status(200).json({ message: "Quiz deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting quiz:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Dashboard Statistics
+export const getDashboardStats = async (req, res) => {
+  try {
+    // Get user statistics
+    const totalUsers = await User.countDocuments();
+    const activeUsers = await User.countDocuments({ isActive: true });
+
+    // Get quiz statistics
+    const totalQuizzes = await Quiz.countDocuments();
+    const activeQuizzes = await Quiz.countDocuments({ status: "active" });
+    const quizSubmissions = await Quiz.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalSubmissions: { $sum: "$submissions" },
+          totalScores: { $sum: "$totalScore" },
+        },
+      },
+    ]);
+
+    const stats = {
+      userStats: {
+        total: totalUsers,
+        active: activeUsers,
+      },
+      quizStats: {
+        total: totalQuizzes,
+        active: activeQuizzes,
+        submissions: quizSubmissions[0]?.totalSubmissions || 0,
+        averageScore: quizSubmissions[0]
+          ? Math.round(
+              (quizSubmissions[0].totalScores /
+                quizSubmissions[0].totalSubmissions) *
+                100
+            ) / 100
+          : 0,
+      },
+    };
+
+    res.json(stats);
+  } catch (error) {
+    console.error("Error getting dashboard stats:", error);
+    res.status(500).json({ message: "Error fetching dashboard statistics" });
+  }
+};
+
+// Announcement Management
+export const getAnnouncements = async (req, res) => {
+  try {
+    const announcements = await Announcement.find()
+      .sort({ createdAt: -1 })
+      .populate("createdBy", "name");
+    res.json({ announcements });
+  } catch (error) {
+    console.error("Error getting announcements:", error);
+    res.status(500).json({ message: "Error fetching announcements" });
+  }
+};
+
+export const createAnnouncement = async (req, res) => {
+  try {
+    const { title, content } = req.body;
+    const announcement = new Announcement({
+      title,
+      content,
+      createdBy: req.user._id,
+    });
+    await announcement.save();
+    res
+      .status(201)
+      .json({ message: "Announcement created successfully", announcement });
+  } catch (error) {
+    console.error("Error creating announcement:", error);
+    res.status(500).json({ message: "Error creating announcement" });
+  }
+};
+
+export const deleteAnnouncement = async (req, res) => {
+  try {
+    const announcement = await Announcement.findById(req.params.id);
+    if (!announcement) {
+      return res.status(404).json({ message: "Announcement not found" });
+    }
+    // Use deleteOne instead of remove
+    await Announcement.deleteOne({ _id: announcement._id });
+    res.json({ message: "Announcement deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting announcement:", error);
+    res.status(500).json({ message: "Error deleting announcement" });
+  }
+};
+
+export const getRecentAnnouncements = async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 5; // Default to 5 recent announcements
+    const announcements = await Announcement.find()
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .populate("createdBy", "name");
+    res.json({ announcements });
+  } catch (error) {
+    console.error("Error getting recent announcements:", error);
+    res.status(500).json({ message: "Error fetching recent announcements" });
   }
 };

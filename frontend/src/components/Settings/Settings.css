@@ -1,0 +1,56 @@
+.settings-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.settings-paper {
+  padding: 2rem;
+  background-color: var(--card-background) !important;
+  color: var(--text-color) !important;
+}
+
+.settings-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.settings-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.setting-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+}
+
+.save-button {
+  margin-top: 1.5rem !important;
+}
+
+/* Override Material UI styles for dark mode */
+.MuiSwitch-root {
+  color: var(--primary-color) !important;
+}
+
+.MuiTypography-root {
+  color: var(--text-color) !important;
+}
+
+.MuiButton-contained {
+  background-color: var(--primary-color) !important;
+  color: var(--text-color) !important;
+}
+
+.MuiButton-contained:hover {
+  background-color: var(--hover-color) !important;
+}
+
+.MuiPaper-root {
+  transition: background-color 0.3s ease, color 0.3s ease;
+} 
