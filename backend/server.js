@@ -30,11 +30,21 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/users", userRoutes);
 
 // MongoDB connection
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+// ... existing code ...
 
+// MongoDB connection with fallback
+mongoose
+  .connect(process.env.MONGO_URI_ATLAS)
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch((err) => {
+    console.error("MongoDB Atlas connection error:", err);
+    console.log("Attempting to connect to MongoDB Localhost...");
+    return mongoose.connect(process.env.MONGO_URI_LOCALHOST);
+  })
+  .then(() => console.log("Connected to MongoDB Localhost"))
+  .catch((err) => console.error("MongoDB Localhost connection error:", err));
+
+// ... existing code ...
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

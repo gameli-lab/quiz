@@ -8,8 +8,8 @@ export const register = async (req, res) => {
     return res.status(400).json({ message: "Invalid role selected" });
   }
   try {
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password, role });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password: hashedPassword, role });
     await newUser.save();
     res.status(200).json({ message: "Registration successful" });
   } catch (error) {
@@ -38,12 +38,12 @@ export const login = async (req, res) => {
 export const verify = async (req, res) => {
   try {
     // If the middleware passed, the token is valid
-    res.status(200).json({ 
+    res.status(200).json({
       message: "Token is valid",
       user: {
         id: req.user.id,
-        role: req.user.role
-      }
+        role: req.user.role,
+      },
     });
   } catch (error) {
     res.status(401).json({ message: "Token verification failed" });
