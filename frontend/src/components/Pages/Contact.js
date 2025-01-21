@@ -35,15 +35,15 @@ const Contact = () => {
             <div className="info-card">
               <h3>📍 Address</h3>
               <p>
-                123 Education Street
+                Adeiso Methodist JHS
                 <br />
-                Learning City, ED 12345
+                Amarkrom, Adeiso
               </p>
             </div>
             <div className="info-card">
               <h3>📞 Phone</h3>
               <p>
-                +1 (555) 123-4567
+                +233 (054) 181-3988
                 <br />
                 Mon - Fri, 9:00 - 18:00
               </p>
@@ -51,6 +51,8 @@ const Contact = () => {
             <div className="info-card">
               <h3>✉️ Email</h3>
               <p>
+                btorfu@proton.me
+                <br />
                 support@quizmaster.com
                 <br />
                 info@quizmaster.com

@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticateToken } from "../middleware/auth.js";
+import { verifyToken } from "../middlewares/authMiddleware.js";
 import multer from "multer";
 import path from "path";
 import {
@@ -45,15 +45,10 @@ const upload = multer({
 });
 
 // Profile routes
-router.put(
-  "/profile",
-  authenticateToken,
-  upload.single("avatar"),
-  updateProfile
-);
+router.put("/profile", verifyToken, upload.single("avatar"), updateProfile);
 
 // Settings routes
-router.get("/settings", authenticateToken, getSettings);
-router.put("/settings", authenticateToken, updateSettings);
+router.get("/settings", verifyToken, getSettings);
+router.put("/settings", verifyToken, updateSettings);
 
 export default router;

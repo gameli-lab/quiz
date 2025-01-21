@@ -29,7 +29,13 @@ const AdminAnnouncements = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/admin/announcements", newAnnouncement, {
+      const userId = localStorage.getItem("userId");
+      const announcementData = {
+        ...newAnnouncement,
+        createdBy: userId,
+      };
+
+      await axios.post("/api/admin/announcements", announcementData, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setMessage("Announcement created successfully");

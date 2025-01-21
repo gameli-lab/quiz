@@ -1,8 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./LandingPage.css";
 
 const LandingPage = () => {
+  const [activeUsers, setActiveUsers] = useState(0);
+  const [quizzesCreated, setQuizzesCreated] = useState(0);
+
+  const fetchActiveUsers = async () => {
+    try {
+      const response = await axios.get("/api/admin/analytics", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setActiveUsers(response.data.activeUsers);
+    } catch (error) {
+      console.error("Error fetching active users:", error);
+    }
+  };
+
+  const fetchQuizzesCreated = async () => {
+    try {
+      const response = await axios.get("/api/admin/analytics", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setQuizzesCreated(response.data.totalQuizzes);
+    } catch (error) {
+      console.error("Error fetching quizzes created:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchActiveUsers();
+    fetchQuizzesCreated();
+  }, []);
+
   return (
     <div className="landing-page">
       {/* Hero Section */}
@@ -78,15 +109,15 @@ const LandingPage = () => {
       {/* Statistics Section */}
       <section className="statistics">
         <div className="stat-card">
-          <h3>10,000+</h3>
+          <h3>{activeUsers}</h3>
           <p>Active Users</p>
         </div>
         <div className="stat-card">
-          <h3>5,000+</h3>
+          <h3>{quizzesCreated}</h3>
           <p>Quizzes Created</p>
         </div>
         <div className="stat-card">
-          <h3>95%</h3>
+          <h3> </h3>
           <p>Satisfaction Rate</p>
         </div>
         <div className="stat-card">
