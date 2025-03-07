@@ -1,0 +1,159 @@
+1.  Which tab in PowerPoint contains the "Images" group for inserting pictures?
+    a) Home
+    b) Design
+    c) Insert
+    d) View
+    Answer: c
+    Explanation: The "Images" group, which includes options like Pictures, Online Pictures, and Screenshot, is located under the Insert tab.
+
+2.  What option in the "Images" group allows you to insert a picture stored on your computer?
+    a) ClipArt
+    b) Screenshot
+    c) Pictures
+    d) Photo Album
+    Answer: c
+    Explanation: The "Pictures" option allows you to insert an image file stored on your computer or external storage.
+
+3.  Which of the following is NOT part of the "Images" group in PowerPoint?
+    a) Shapes
+    b) Screenshot
+    c) Online Pictures
+    d) Pictures
+    Answer: a
+    Explanation: Shapes are part of the "Illustrations" group, not the "Images" group.
+
+4.  What does the "Online Pictures" option in the "Images" group allow you to do?
+    a) Insert images from your computer
+    b) Insert images from the internet
+    c) Take a screenshot
+    d) Create a photo album
+    Answer: b
+    Explanation: The "Online Pictures" option allows you to search for and insert images from online sources like Bing or OneDrive.
+
+5.  What is ClipArt used for in PowerPoint?
+    a) Editing images
+    b) Inserting pre-made illustrations or graphics
+    c) Taking screenshots
+    d) Creating a photo album
+    Answer: b
+    Explanation: ClipArt provides pre-made illustrations or graphics that can be inserted into presentations.
+
+6.  Which feature in PowerPoint allows you to compile multiple images into a single presentation?
+    a) Screenshot
+    b) Photo Album
+    c) ClipArt
+    d) Online Pictures
+    Answer: b
+    Explanation: The Photo Album feature allows you to compile multiple images into a single presentation with customizable layouts.
+
+7.  What does the "Screenshot" option in PowerPoint allow you to do?
+    a) Insert images from your computer
+    b) Capture and insert a screenshot of an open window or screen clipping
+    c) Create a photo album
+    d) Insert ClipArt
+    Answer: b
+    Explanation: The Screenshot option allows you to capture and insert a screenshot of an open window or a selected portion of the screen.
+
+8.  Which of the following is true about ClipArt in PowerPoint?
+    a) It is no longer supported in newer versions of PowerPoint
+    b) It can only be used in black and white
+    c) It is available under the "Insert" tab
+    d) It requires an internet connection to use
+    Answer: a
+    Explanation: ClipArt is no longer supported in newer versions of PowerPoint, and users are encouraged to use Online Pictures instead.
+
+9.  Which tab appears when you select an image in PowerPoint, providing tools for editing and formatting?
+    a) Home
+    b) Design
+    c) Format
+    d) View
+    Answer: c
+    Explanation: The Format tab, also known as the Picture Tools tab, appears when an image is selected and provides editing and formatting options.
+
+10. What is the purpose of the "Crop" tool in PowerPoint?
+    a) To resize an image
+    b) To remove unwanted parts of an image
+    c) To change the color of an image
+    d) To add a border to an image
+    Answer: b
+    Explanation: The Crop tool allows you to remove unwanted parts of an image by trimming its edges.
+
+11. Which option allows you to adjust the brightness and contrast of an image in PowerPoint?
+    a) Corrections
+    b) Color
+    c) Artistic Effects
+    d) Picture Styles
+    Answer: a
+    Explanation: The Corrections option under the Format tab allows you to adjust brightness, contrast, and sharpness.
+
+12. What does the "Artistic Effects" tool in PowerPoint do?
+    a) Adds borders to images
+    b) Applies special visual effects like pencil sketch or paint strokes
+    c) Adjusts image size
+    d) Changes the image format
+    Answer: b
+    Explanation: The Artistic Effects tool applies special visual effects to images, such as making them look like a pencil sketch or a painting.
+
+13. What is the primary purpose of using a projector in a PowerPoint presentation?
+    a) To edit images
+    b) To display the presentation to a larger audience
+    c) To take screenshots
+    d) To create a photo album
+    Answer: b
+    Explanation: A projector is used to display the presentation on a larger screen for a bigger audience.
+
+14. Which of the following is NOT a step in projecting a PowerPoint presentation?
+    a) Connecting the projector to the computer
+    b) Using the "Slide Show" tab to start the presentation
+    c) Editing images during the presentation
+    d) Adjusting the projector settings for optimal display
+    Answer: c
+    Explanation: Editing images is done during the preparation phase, not while projecting the presentation.
+
+15. What is the shortcut key to start a slideshow in PowerPoint?
+    a) F5
+    b) Ctrl + S
+    c) Alt + F4
+    d) F7
+    Answer: a
+    Explanation: Pressing F5 starts the slideshow from the beginning.
+
+16. Which feature in PowerPoint allows you to rehearse timings for a presentation?
+    a) Slide Sorter
+    b) Rehearse Timings
+    c) Record Slide Show
+    d) Presenter View
+    Answer: b
+    Explanation: The Rehearse Timings feature helps you practice and set timings for each slide.
+
+17. Which view in PowerPoint allows you to see thumbnails of all slides in a presentation?
+    a) Normal View
+    b) Slide Sorter View
+    c) Reading View
+    d) Notes Page View
+    Answer: b
+    Explanation: Slide Sorter View displays thumbnails of all slides, making it easier to organize them.
+
+18. What is the purpose of the "Design Ideas" feature in PowerPoint?
+    a) To insert images
+    b) To suggest design layouts and formatting options
+    c) To take screenshots
+    d) To create a photo album
+    Answer: b
+    Explanation: The Design Ideas feature suggests design layouts and formatting options based on the content of your slides.
+
+19. Which of the following is NOT a way to format an image in PowerPoint?
+    a) Adding a border
+    b) Applying a shadow effect
+    c) Changing the font size
+    d) Adjusting the transparency
+    Answer: c
+    Explanation: Changing the font size is related to text formatting, not image formatting.
+
+20. What does the "Reset Picture" option in PowerPoint do?
+    a) Deletes the image
+    b) Restores the image to its original state
+    c) Changes the image format
+    d) Adds a border to the image
+    Answer: b
+    Explanation: The Reset Picture option removes all formatting and restores the image to its original state.

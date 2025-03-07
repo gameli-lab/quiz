@@ -5,8 +5,10 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import quizRoutes from "./routes/quizRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 dotenv.config();
 
@@ -16,6 +18,12 @@ const PORT = process.env.PORT || 5000;
 // Get current directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Ensure uploads/quizzes directory exists
+const uploadDir = path.join(__dirname, "uploads/quizzes");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // Middleware
 app.use(cors());
@@ -28,6 +36,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/quizzes", quizRoutes);
 
 // MongoDB connection
 // ... existing code ...

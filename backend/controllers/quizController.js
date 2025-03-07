@@ -1,6 +1,5 @@
 import Quiz from "../models/Quiz.js";
 import CompletedQuiz from "../models/CompletedQuiz.js";
-import User from "../models/User.js";
 import sendEmail from "../utils/email.js";
 import { processQuizFile } from "../services/quizProcessingService.js";
 
