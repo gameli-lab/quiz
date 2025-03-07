@@ -259,6 +259,7 @@ export const updateQuizStatus = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 export const deleteQuiz = async (req, res) => {
   try {
     const quiz = await Quiz.findById(req.params.quizId);

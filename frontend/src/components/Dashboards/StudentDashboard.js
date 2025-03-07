@@ -25,7 +25,7 @@ const StudentDashboard = () => {
         });
         setUser(userRes.data);
 
-        const quizzesRes = await axios.get("/api/quiz/approved", {
+        const quizzesRes = await axios.get("/api/quizzes/approved", {
           headers: { Authorization: localStorage.getItem("token") },
         });
         const groupedBySubject = groupQuizzesByCategory(

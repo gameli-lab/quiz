@@ -20,6 +20,7 @@ import About from "./components/Pages/About";
 import Contact from "./components/Pages/Contact";
 import Profile from "./components/Profile/Profile";
 import Settings from "./components/Settings/Settings";
+import QuizPage from "./components/QuizPage"; // Import the QuizPage component
 import "./App.css";
 import "./styles/themes.css";
 import "./styles/theme.css";
@@ -109,7 +110,14 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-
+                <Route
+                  path="/quiz/:quizId"
+                  element={
+                    <ProtectedRoute>
+                      <QuizPage />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route
                   path="/profile"
                   element={

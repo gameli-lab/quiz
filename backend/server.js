@@ -36,24 +36,14 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/quizzes", quizRoutes);
+app.use("/api/quizzes", quizRoutes); // Ensure this line is present
 
 // MongoDB connection
-// ... existing code ...
-
-// MongoDB connection with fallback
 mongoose
   .connect(process.env.MONGO_URI_ATLAS)
   .then(() => console.log("Connected to MongoDB Atlas"))
-  .catch((err) => {
-    console.error("MongoDB Atlas connection error:", err);
-    console.log("Attempting to connect to MongoDB Localhost...");
-    return mongoose.connect(process.env.MONGO_URI_LOCALHOST);
-  })
-  .then(() => console.log("Connected to MongoDB Localhost"))
-  .catch((err) => console.error("MongoDB Localhost connection error:", err));
+  .catch((error) => console.error("MongoDB connection error:", error));
 
-// ... existing code ...
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

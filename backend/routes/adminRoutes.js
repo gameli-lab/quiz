@@ -58,8 +58,7 @@ router.post("/quizzes/:quizId/:action", verifyToken, async (req, res) => {
 
   try {
     const status = action === "activate" ? "active" : "inactive";
-    await updateQuizStatus(quizId, status);
-    res.status(200).json({ message: `Quiz ${action}d successfully` });
+    await updateQuizStatus(req, res); // Pass req and res here
   } catch (error) {
     res.status(500).json({ message: `Failed to ${action} quiz` });
   }

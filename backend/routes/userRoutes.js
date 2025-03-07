@@ -3,6 +3,7 @@ import { verifyToken } from "../middlewares/authMiddleware.js";
 import multer from "multer";
 import path from "path";
 import {
+  getUserProfile,
   updateProfile,
   getSettings,
   updateSettings,
@@ -44,11 +45,16 @@ const upload = multer({
   },
 });
 
-// Profile routes
-router.put("/profile", verifyToken, upload.single("avatar"), updateProfile);
+// Get user profile
+router.get("/me", verifyToken, getUserProfile);
 
-// Settings routes
+// Update user profile
+router.put("/me", verifyToken, upload.single("avatar"), updateProfile);
+
+// Get user settings
 router.get("/settings", verifyToken, getSettings);
+
+// Update user settings
 router.put("/settings", verifyToken, updateSettings);
 
 export default router;

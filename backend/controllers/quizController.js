@@ -152,13 +152,11 @@ export const getCompletedQuizzes = async (req, res) => {
   const userId = req.user.id;
   try {
     const completedQuizzes = await CompletedQuiz.find({ user: userId })
-      .populate("quiz")
+      .populate("quiz", "title subject difficulty")
       .sort({ completedAt: -1 });
     res.status(200).json(completedQuizzes);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed fetching completed quizzes:", error });
+    res.status(500).json({ message: error.message });
   }
 };
 
