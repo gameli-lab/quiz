@@ -21,6 +21,8 @@ import Contact from "./components/Pages/Contact";
 import Profile from "./components/Profile/Profile";
 import Settings from "./components/Settings/Settings";
 import QuizPage from "./components/QuizPage"; // Import the QuizPage component
+import AvailableQuizzes from "./components/Dashboards/AvailableQuizzes";
+import QuizResults from "./components/Dashboards/QuizResults";
 import "./App.css";
 import "./styles/themes.css";
 import "./styles/theme.css";
@@ -107,6 +109,22 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <StudentDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/student/quizzes"
+                  element={
+                    <ProtectedRoute>
+                      <AvailableQuizzes />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/student/results"
+                  element={
+                    <ProtectedRoute>
+                      <QuizResults />
                     </ProtectedRoute>
                   }
                 />

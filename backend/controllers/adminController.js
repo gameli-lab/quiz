@@ -347,14 +347,23 @@ export const getAnnouncements = async (req, res) => {
   }
 };
 
+// Create Announcement
 export const createAnnouncement = async (req, res) => {
   try {
     const { title, content } = req.body;
+
+    // Check if req.user exists before trying to access _id
+    if (!req.user || !req.user._id) {
+      console.error("User not found in request:", req.user);
+      return res.status(401).json({ message: "Authentication required" });
+    }
+
     const announcement = new Announcement({
       title,
       content,
       createdBy: req.user._id,
     });
+
     await announcement.save();
     res
       .status(201)

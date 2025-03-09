@@ -1,5 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {
+  Container,
+  // Grid,
+  Paper,
+  Typography,
+  Button,
+  TextField,
+  // CircularProgress,
+  Alert,
+  Box,
+  Divider,
+  Chip,
+} from "@mui/material";
+import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import "./Admin.css";
 
 const AdminAnnouncements = () => {
@@ -62,77 +76,94 @@ const AdminAnnouncements = () => {
   if (error) return <div className="error">{error}</div>;
 
   return (
-    <div className="admin-container">
-      <h1>Announcements</h1>
-      {message && <div className="success-message">{message}</div>}
-      <div className="admin-content">
-        <div className="admin-card">
-          <h2>Create Announcement</h2>
-          <form className="announcement-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <input
-                type="text"
-                placeholder="Announcement Title"
-                className="form-control"
-                value={newAnnouncement.title}
-                onChange={(e) =>
-                  setNewAnnouncement({
-                    ...newAnnouncement,
-                    title: e.target.value,
-                  })
-                }
-                required
-              />
-            </div>
-            <div className="form-group">
-              <textarea
-                placeholder="Announcement Content"
-                className="form-control"
-                rows="4"
-                value={newAnnouncement.content}
-                onChange={(e) =>
-                  setNewAnnouncement({
-                    ...newAnnouncement,
-                    content: e.target.value,
-                  })
-                }
-                required
-              ></textarea>
-            </div>
-            <button type="submit" className="btn btn-primary">
-              Post Announcement
-            </button>
-          </form>
-        </div>
+    <Container maxWidth="lg" sx={{ mt: 5, mb: 8 }}>
+      <Typography variant="h4" gutterBottom>
+        Announcements
+      </Typography>
 
-        <div className="admin-card">
-          <h2>Recent Announcements</h2>
-          <div className="announcements-list">
-            {announcements.length === 0 ? (
-              <p>No announcements yet</p>
-            ) : (
-              announcements.map((announcement) => (
-                <div key={announcement._id} className="announcement-card">
-                  <div className="announcement-header">
-                    <h3>{announcement.title}</h3>
-                    <button
-                      onClick={() => handleDelete(announcement._id)}
-                      className="btn btn-danger btn-sm"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                  <p>{announcement.content}</p>
-                  <span className="announcement-date">
-                    {new Date(announcement.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+      {message && (
+        <Alert severity="success" sx={{ mb: 3 }}>
+          {message}
+        </Alert>
+      )}
+      {error && (
+        <Alert severity="error" sx={{ mb: 3 }}>
+          {error}
+        </Alert>
+      )}
+
+      <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          Create Announcement
+        </Typography>
+        <Divider sx={{ mb: 3 }} />
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            label="Title"
+            value={newAnnouncement.title}
+            onChange={(e) =>
+              setNewAnnouncement({ ...newAnnouncement, title: e.target.value })
+            }
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            fullWidth
+            label="Content"
+            value={newAnnouncement.content}
+            onChange={(e) =>
+              setNewAnnouncement({
+                ...newAnnouncement,
+                content: e.target.value,
+              })
+            }
+            required
+            multiline
+            rows={4}
+            sx={{ mb: 2 }}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            type="submit"
+          >
+            Post Announcement
+          </Button>
+        </form>
+      </Paper>
+
+      <Paper elevation={3} sx={{ p: 3 }}>
+        <Typography variant="h5" gutterBottom>
+          Recent Announcements
+        </Typography>
+        <Divider sx={{ mb: 3 }} />
+        {announcements.length === 0 ? (
+          <Typography>No recent announcements</Typography>
+        ) : (
+          announcements.map((announcement) => (
+            <Box key={announcement._id} sx={{ mb: 2 }}>
+              <Typography variant="h6">{announcement.title}</Typography>
+              <Typography>{announcement.content}</Typography>
+              <Chip
+                label={new Date(announcement.createdAt).toLocaleDateString()}
+                sx={{ mt: 1 }}
+              />
+              <Button
+                variant="outlined"
+                color="error"
+                startIcon={<DeleteIcon />}
+                onClick={() => handleDelete(announcement._id)}
+                sx={{ mt: 1 }}
+              >
+                Delete
+              </Button>
+            </Box>
+          ))
+        )}
+      </Paper>
+    </Container>
   );
 };
 

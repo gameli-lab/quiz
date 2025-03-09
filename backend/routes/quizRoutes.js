@@ -14,6 +14,7 @@ import {
   createQuiz,
 } from "../controllers/quizController.js";
 import { upload } from "../middlewares/uploadMiddleware.js";
+import { getAnnouncements } from "../controllers/announcementController.js";
 
 const router = express.Router();
 
@@ -53,5 +54,8 @@ router.post(
   upload.array("files", 5), // Allow up to 5 files
   createQuiz
 );
+
+// Get announcements for students/teachers
+router.get("/announcements", verifyToken, getAnnouncements);
 
 export default router;
