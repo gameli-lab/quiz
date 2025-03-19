@@ -8,6 +8,10 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import StudentDashboard from "./components/Dashboards/StudentDashboard";
 import TeacherDashboard from "./components/Dashboards/TeacherDashboard";
+import TeacherQuizzes from "./components/Dashboards/TeacherQuizzes";
+import TeacherResults from "./components/Dashboards/TeacherResults";
+import QuizResultDetails from "./components/Dashboards/QuizResultDetails";
+import QuizUpload from "./components/Quiz/QuizUpload";
 import AdminDashboard from "./components/Dashboards/AdminDashboard";
 import AdminQuizzes from "./components/Admin/AdminQuizzes";
 import UserManagement from "./components/Admin/UserManagement";
@@ -23,6 +27,8 @@ import Settings from "./components/Settings/Settings";
 import QuizPage from "./components/QuizPage"; // Import the QuizPage component
 import AvailableQuizzes from "./components/Dashboards/AvailableQuizzes";
 import QuizResults from "./components/Dashboards/QuizResults";
+import ForgotPassword from "./components/Auth/ForgotPassword"; // Import the ForgotPassword component
+import ResetPassword from "./components/Auth/ResetPassword"; // Import the ResetPassword component
 import "./App.css";
 import "./styles/themes.css";
 import "./styles/theme.css";
@@ -42,6 +48,11 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route
+                  path="/reset-password/:token"
+                  element={<ResetPassword />}
+                />
 
                 {/* Admin Routes */}
                 <Route
@@ -99,6 +110,38 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <TeacherDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/teacher/quizzes"
+                  element={
+                    <ProtectedRoute>
+                      <TeacherQuizzes />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/teacher/create-quiz"
+                  element={
+                    <ProtectedRoute>
+                      <QuizUpload />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/teacher/results"
+                  element={
+                    <ProtectedRoute>
+                      <TeacherResults />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/teacher/quiz-results/:quizId"
+                  element={
+                    <ProtectedRoute>
+                      <QuizResultDetails />
                     </ProtectedRoute>
                   }
                 />

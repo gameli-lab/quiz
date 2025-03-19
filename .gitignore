@@ -2,3 +2,4 @@ node_modules/
 wait/
 package-lock.json
 .env
+.qodo
