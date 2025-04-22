@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
@@ -40,6 +41,8 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    passwordResetToken: String, // Add this field
+    passwordResetExpires: Date, // Add this field
   },
   {
     timestamps: true,

@@ -1,175 +1,60 @@
-.profile-container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Profile.css - New professional styles */
+.MuiAvatar-root {
+  transition: all 0.3s ease;
 }
 
-.profile-container h1 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 2rem;
+.MuiAvatar-root:hover {
+  transform: scale(1.02);
 }
 
-.profile-content {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 2rem;
+.MuiTextField-root input:disabled {
+  color: var(--text-color);
+  -webkit-text-fill-color: var(--text-color);
+  opacity: 0.8;
 }
 
-.avatar-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.MuiPaper-root {
+  background-color: var(--card-background) !important;
+  color: var(--text-color) !important;
 }
 
-.avatar-container {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  margin-bottom: 1rem;
+.MuiCard-root {
+  background-color: var(--secondary-color) !important;
+  transition: transform 0.3s ease;
 }
 
-.avatar-preview {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #e0e0e0;
+.MuiCard-root:hover {
+  transform: translateY(-3px);
 }
 
-.avatar-upload {
-  margin-top: 1rem;
-  text-align: center;
+/* Ensure proper theme support */
+.MuiTypography-root {
+  color: var(--text-color) !important;
 }
 
-.avatar-upload-label {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.MuiButton-contained {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  transition: all 0.3s ease !important;
 }
 
-.avatar-upload-label:hover {
-  background-color: #0056b3;
+.MuiButton-contained:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
-.avatar-input {
-  display: none;
+.MuiButton-outlined {
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
-.profile-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.form-group label {
-  font-weight: 600;
-  color: #555;
-}
-
-.form-group input,
-.form-group textarea {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.form-group input:disabled,
-.form-group textarea:disabled {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-}
-
-.form-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 1rem;
-}
-
-.edit-button,
-.save-button,
-.cancel-button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.edit-button {
-  background-color: #007bff;
-  color: white;
-}
-
-.save-button {
-  background-color: #28a745;
-  color: white;
-}
-
-.cancel-button {
-  background-color: #dc3545;
-  color: white;
-}
-
-.edit-button:hover {
-  background-color: #0056b3;
-}
-
-.save-button:hover {
-  background-color: #218838;
-}
-
-.cancel-button:hover {
-  background-color: #c82333;
-}
-
-.message {
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
-  text-align: center;
-}
-
-.message.success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.message.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-@media (max-width: 768px) {
-  .profile-content {
-    grid-template-columns: 1fr;
+/* Responsive design */
+@media (max-width: 600px) {
+  .MuiContainer-root {
+    padding: 12px !important;
   }
-
-  .avatar-container {
-    width: 150px;
-    height: 150px;
+  
+  .MuiPaper-root {
+    padding: 16px !important;
   }
-
-  .profile-container {
-    padding: 1rem;
-    margin: 1rem;
-  }
-} 
+}

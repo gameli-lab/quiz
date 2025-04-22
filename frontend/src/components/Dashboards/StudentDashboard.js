@@ -7,37 +7,76 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import DownloadIcon from "@mui/icons-material/Download";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SchoolIcon from "@mui/icons-material/School";
+// import SchoolIcon from "@mui/icons-material/School";
+import AnnouncementIcon from "@mui/icons-material/Announcement";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
 
 const StudentDashboard = () => {
   const [user, setUser] = useState(null);
   const [quizzes, setQuizzes] = useState({});
   const [completedQuizzes, setCompletedQuizzes] = useState([]);
+  const [pendingQuizzes, setPendingQuizzes] = useState({});
   const [greeting, setGreeting] = useState("");
   const [time, setTime] = useState(new Date());
+  const [announcements, setAnnouncements] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const userRes = await axios.get("/api/users/me", {
-          headers: { Authorization: localStorage.getItem("token") },
-        });
+        const [userRes, quizzesRes, completedRes, announcementsRes] =
+          await Promise.all([
+            axios.get("/api/users/me", {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }),
+            axios.get("/api/quizzes/approved", {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }),
+            axios.get("/api/quizzes/completed", {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }),
+            // Add this new request for announcements
+            axios.get("/api/quizzes/announcements", {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }),
+          ]);
+
         setUser(userRes.data);
 
-        const quizzesRes = await axios.get("/api/quiz/approved", {
-          headers: { Authorization: localStorage.getItem("token") },
-        });
-        const groupedBySubject = groupQuizzesByCategory(
-          quizzesRes.data,
+        // Get array of completed quiz IDs
+        const completedQuizIds = completedRes.data.map((item) => item.quiz._id);
+
+        // Separate approved quizzes into completed and pending
+        const allApprovedQuizzes = quizzesRes.data;
+        const pendingQuizzes = allApprovedQuizzes.filter(
+          (quiz) => !completedQuizIds.includes(quiz._id)
+        );
+
+        // Group by subject
+        const groupedCompleted = groupQuizzesByCategory(
+          allApprovedQuizzes.filter((quiz) =>
+            completedQuizIds.includes(quiz._id)
+          ),
           "subject"
         );
-        setQuizzes(groupedBySubject);
+        const groupedPending = groupQuizzesByCategory(
+          pendingQuizzes,
+          "subject"
+        );
 
-        const completedRes = await axios.get("/api/quiz/completed", {
-          headers: { Authorization: localStorage.getItem("token") },
-        });
+        setQuizzes(groupedCompleted);
+        setPendingQuizzes(groupedPending);
         setCompletedQuizzes(completedRes.data);
+        setAnnouncements(announcementsRes.data.announcements || []);
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
@@ -159,36 +198,120 @@ const StudentDashboard = () => {
 
       <div className="quizzes-section">
         <div className="section-header">
-          <SchoolIcon />
-          <h2>Available Quizzes</h2>
+          <NewReleasesIcon />
+          <h2>Pending Quizzes</h2>
         </div>
-        <div className="subjects-grid">
-          {Object.entries(quizzes).map(([subject, subjectQuizzes]) => (
-            <div key={subject} className="subject-card">
-              <h3>{subject}</h3>
-              <div className="quiz-list">
-                {subjectQuizzes.map((quiz) => (
-                  <div key={quiz._id} className="quiz-item">
-                    <div className="quiz-info">
-                      <h4>{quiz.title}</h4>
-                      <span
-                        className={`difficulty ${quiz.difficulty.toLowerCase()}`}
+        {Object.keys(pendingQuizzes).length === 0 ? (
+          <p>
+            No pending quizzes available. Great job on completing everything!
+          </p>
+        ) : (
+          <div className="subjects-grid">
+            {Object.entries(pendingQuizzes).map(([subject, subjectQuizzes]) => (
+              <div key={subject} className="subject-card">
+                <h3>{subject}</h3>
+                <div className="quiz-list">
+                  {subjectQuizzes.map((quiz) => (
+                    <div key={quiz._id} className="quiz-item">
+                      <div className="quiz-info">
+                        <h4>{quiz.title}</h4>
+                        <span
+                          className={`difficulty ${quiz.difficulty.toLowerCase()}`}
+                        >
+                          {quiz.difficulty}
+                        </span>
+                      </div>
+                      <button
+                        className="start-quiz-btn"
+                        onClick={() => handleStartQuiz(quiz._id)}
                       >
-                        {quiz.difficulty}
-                      </span>
+                        <PlayArrowIcon />
+                        Start Quiz
+                      </button>
                     </div>
-                    <button
-                      className="start-quiz-btn"
-                      onClick={() => handleStartQuiz(quiz._id)}
-                    >
-                      <PlayArrowIcon />
-                      Start Quiz
-                    </button>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="quizzes-section">
+        <div className="section-header">
+          <CheckCircleIcon />
+          <h2>Completed Quizzes</h2>
+        </div>
+        {Object.keys(quizzes).length === 0 ? (
+          <p>
+            You haven't completed any quizzes yet. Start with the pending
+            quizzes above!
+          </p>
+        ) : (
+          <div className="subjects-grid">
+            {Object.entries(quizzes).map(([subject, subjectQuizzes]) => (
+              <div key={subject} className="subject-card">
+                <h3>{subject}</h3>
+                <div className="quiz-list">
+                  {subjectQuizzes.map((quiz) => (
+                    <div key={quiz._id} className="quiz-item completed-quiz">
+                      <div className="quiz-info">
+                        <h4>{quiz.title}</h4>
+                        <span
+                          className={`difficulty ${quiz.difficulty.toLowerCase()}`}
+                        >
+                          {quiz.difficulty}
+                        </span>
+                        {/* Find the score for this completed quiz */}
+                        {completedQuizzes.find(
+                          (cq) => cq.quiz._id === quiz._id
+                        ) && (
+                          <span className="score-badge">
+                            Score:{" "}
+                            {
+                              completedQuizzes.find(
+                                (cq) => cq.quiz._id === quiz._id
+                              ).score
+                            }
+                            %
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        className="retake-quiz-btn"
+                        onClick={() => handleStartQuiz(quiz._id)}
+                      >
+                        <PlayArrowIcon />
+                        Retake
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="announcements-section">
+        <div className="section-header">
+          <AnnouncementIcon />
+          <h2>Announcements</h2>
+        </div>
+        <div className="announcements-list">
+          {announcements.length === 0 ? (
+            <p>No announcements at this time</p>
+          ) : (
+            announcements.map((announcement) => (
+              <div key={announcement._id} className="announcement-card">
+                <h3>{announcement.title}</h3>
+                <p>{announcement.content}</p>
+                <span className="announcement-date">
+                  {new Date(announcement.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

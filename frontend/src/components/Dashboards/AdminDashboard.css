@@ -38,7 +38,7 @@
 .summary-section h2 {
   color: #2c3e50;
   margin-bottom: 1.5rem;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 }
 
 .analytics-grid {
@@ -123,6 +123,15 @@
 .action-btn:hover {
   background: #2980b9;
   transform: translateY(-2px);
+}
+
+.no-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #999;
+  font-style: italic;
 }
 
 @media (max-width: 768px) {

@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticateToken } from "../middleware/auth.js";
+import { verifyToken } from "../middlewares/authMiddleware.js";
 import { logActivity } from "../middlewares/securityMiddleware.js";
 import {
   getAllUsers,
@@ -30,30 +30,47 @@ import {
 const router = express.Router();
 
 // User Management
-router.get("/users", authenticateToken, getAllUsers);
-router.post("/users/:userId/suspend", authenticateToken, updateUserStatus);
-router.delete("/users/:userId", authenticateToken, deleteUser);
+router.get("/users", verifyToken, getAllUsers);
+router.post("/users/:userId/suspend", verifyToken, updateUserStatus);
+router.delete("/users/:userId", verifyToken, deleteUser);
 
 // Analytics
-router.get("/analytics", authenticateToken, getAnalytics);
-router.get("/export-report", authenticateToken, exportReport);
+router.get("/analytics", verifyToken, getAnalytics);
+router.get("/export-report", verifyToken, exportReport);
 
 // System Management
-router.get("/settings", authenticateToken, getSystemSettings);
-router.put("/settings", authenticateToken, updateSystemSettings);
+router.get("/settings", verifyToken, getSystemSettings);
+router.put("/settings", verifyToken, updateSystemSettings);
 
 // Quiz Management
-router.get("/quizzes", authenticateToken, getAllQuizzes);
-router.post("/quizzes/:quizId/status", authenticateToken, updateQuizStatus);
-router.delete("/quizzes/:quizId", authenticateToken, deleteQuiz);
+router.get("/quizzes", verifyToken, getAllQuizzes);
+router.post("/quizzes/:quizId/status", verifyToken, updateQuizStatus);
+router.delete("/quizzes/:quizId", verifyToken, deleteQuiz);
+
+// Add this route for activating/deactivating quizzes
+router.post("/quizzes/:quizId/:action", verifyToken, async (req, res) => {
+  const { quizId, action } = req.params;
+  const validActions = ["activate", "deactivate"];
+
+  if (!validActions.includes(action)) {
+    return res.status(400).json({ message: "Invalid action" });
+  }
+
+  try {
+    const status = action === "activate" ? "active" : "inactive";
+    await updateQuizStatus(req, res); // Pass req and res here
+  } catch (error) {
+    res.status(500).json({ message: `Failed to ${action} quiz` });
+  }
+});
 
 // Dashboard stats route
-router.get("/dashboard/stats", authenticateToken, getDashboardStats);
+router.get("/dashboard/stats", verifyToken, getDashboardStats);
 
 // Announcement routes
-router.get("/announcements", authenticateToken, getAnnouncements);
-router.get("/announcements/recent", authenticateToken, getRecentAnnouncements);
-router.post("/announcements", authenticateToken, createAnnouncement);
-router.delete("/announcements/:id", authenticateToken, deleteAnnouncement);
+router.get("/announcements", verifyToken, getAnnouncements);
+router.get("/announcements/recent", verifyToken, getRecentAnnouncements);
+router.post("/announcements", verifyToken, createAnnouncement);
+router.delete("/announcements/:id", verifyToken, deleteAnnouncement);
 
 export default router;

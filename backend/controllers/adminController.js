@@ -231,9 +231,9 @@ export const getAllQuizzes = async (req, res) => {
 };
 
 export const updateQuizStatus = async (req, res) => {
+  const { quizId, status } = req.params;
   try {
-    const { status } = req.body;
-    const quiz = await Quiz.findById(req.params.quizId);
+    const quiz = await Quiz.findById(quizId).populate("uploader", "email");
 
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
@@ -243,11 +243,15 @@ export const updateQuizStatus = async (req, res) => {
     await quiz.save();
 
     // Notify the quiz uploader about the status change
-    await sendEmail(
-      quiz.uploader.email,
-      `Quiz Status Updated`,
-      `Your quiz "${quiz.title}" status has been updated to ${status}.`
-    );
+    if (quiz.uploader && quiz.uploader.email) {
+      await sendEmail(
+        quiz.uploader.email,
+        `Quiz Status Updated`,
+        `Your quiz "${quiz.title}" status has been updated to ${status}.`
+      );
+    } else {
+      console.error("Uploader email not found for quiz:", quiz);
+    }
 
     res.status(200).json({ message: "Quiz status updated successfully" });
   } catch (error) {
@@ -343,14 +347,23 @@ export const getAnnouncements = async (req, res) => {
   }
 };
 
+// Create Announcement
 export const createAnnouncement = async (req, res) => {
   try {
     const { title, content } = req.body;
+
+    // Check if req.user exists before trying to access _id
+    if (!req.user || !req.user._id) {
+      console.error("User not found in request:", req.user);
+      return res.status(401).json({ message: "Authentication required" });
+    }
+
     const announcement = new Announcement({
       title,
       content,
       createdBy: req.user._id,
     });
+
     await announcement.save();
     res
       .status(201)

@@ -1,19 +1,19 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Box,
-  Button,
   TextField,
-  //   Typography,
-  Alert,
-  CircularProgress,
+  Typography,
+  Button,
+  MenuItem,
   List,
   ListItem,
   ListItemText,
   IconButton,
-  MenuItem,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
-import { Delete as DeleteIcon } from "@mui/icons-material";
-import axios from "axios";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const QuizUpload = () => {
   const [formData, setFormData] = useState({
@@ -24,16 +24,16 @@ const QuizUpload = () => {
     difficulty: "medium",
   });
   const [files, setFiles] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
   };
 
   const handleFileChange = (event) => {
@@ -63,7 +63,7 @@ const QuizUpload = () => {
       const response = await axios.post("/api/quizzes/create", submitData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: localStorage.getItem("token"),
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
@@ -87,8 +87,12 @@ const QuizUpload = () => {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ maxWidth: 600, mx: "auto", mt: 3 }}
+      sx={{ maxWidth: 600, mx: "auto", mt: 3, p: 3 }}
     >
+      <Typography variant="h4" component="h1" gutterBottom>
+        Create New Quiz
+      </Typography>
+
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
@@ -125,9 +129,12 @@ const QuizUpload = () => {
           "Science",
           "Computing",
           "English",
-          "Art",
+          "Creative Art and Design",
           "Social Studies",
           "French",
+          "Career Technology",
+          "Ghanaian Language",
+          "Religious and Moral Education",
           "Other",
         ].map((option) => (
           <MenuItem key={option} value={option}>

@@ -1,6 +1,6 @@
+import mongoose from "mongoose";
 import Quiz from "../models/Quiz.js";
 import CompletedQuiz from "../models/CompletedQuiz.js";
-import User from "../models/User.js";
 import sendEmail from "../utils/email.js";
 import { processQuizFile } from "../services/quizProcessingService.js";
 
@@ -120,30 +120,74 @@ export const approveQuiz = async (req, res) => {
 //Mark a quiz as completed
 export const markQuizCompleted = async (req, res) => {
   const { quizId } = req.params;
+  const { answers, timeSpent } = req.body;
 
   try {
+    // Check if user has already completed this quiz
     const existingCompletedQuiz = await CompletedQuiz.findOne({
       quiz: quizId,
       user: req.user.id,
     });
-    if (existingCompletedQuiz)
+
+    if (existingCompletedQuiz) {
       return res
         .status(400)
         .json({ message: "You have already completed this quiz." });
+    }
 
     const quiz = await Quiz.findById(quizId);
     if (!quiz) return res.status(404).json({ message: "Quiz not found." });
 
+    // Process answers and calculate score
+    const processedAnswers = [];
+    let score = 0;
+    let totalPoints = 0;
+
+    // Check each answer against correct answers in quiz
+    if (quiz.questions && quiz.questions.length > 0) {
+      Object.keys(answers).forEach((index) => {
+        const i = parseInt(index);
+        const question = quiz.questions[i];
+        if (!question) return;
+
+        const userAnswer = answers[index];
+        const isCorrect = userAnswer === question.correctAnswer;
+        const points = question.points || 1;
+
+        totalPoints += points;
+        if (isCorrect) {
+          score += points;
+        }
+
+        // Use a string ID that can be converted to ObjectId
+        processedAnswers.push({
+          questionId: question._id || new mongoose.Types.ObjectId(), // Generate a new ObjectId if _id is missing
+          selectedAnswer: userAnswer,
+          isCorrect,
+        });
+      });
+    }
+
+    // Calculate score percentage
+    const scorePercentage = totalPoints > 0 ? (score / totalPoints) * 100 : 0;
+
     const completedQuiz = new CompletedQuiz({
       quiz: quizId,
       user: req.user.id,
-      score: 0,
+      score: Math.round(scorePercentage),
+      answers: processedAnswers,
+      timeSpent: timeSpent || 0,
       completedAt: new Date(),
     });
 
     await completedQuiz.save();
-    res.status(200).json({ message: "Quiz completed successfully." });
+
+    res.status(200).json({
+      message: "Quiz completed successfully.",
+      score: Math.round(scorePercentage),
+    });
   } catch (error) {
+    console.error("Error completing quiz:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -153,13 +197,11 @@ export const getCompletedQuizzes = async (req, res) => {
   const userId = req.user.id;
   try {
     const completedQuizzes = await CompletedQuiz.find({ user: userId })
-      .populate("quiz")
+      .populate("quiz", "title subject difficulty")
       .sort({ completedAt: -1 });
     res.status(200).json(completedQuizzes);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed fetching completed quizzes:", error });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -169,7 +211,9 @@ export const getQuizQuestions = async (req, res) => {
   try {
     const quiz = await Quiz.findById(quizId);
     if (!quiz) return res.status(404).json({ message: "Quiz not found." });
-    res.status(200).json(quiz.questions);
+
+    // Return the entire quiz object instead of just questions
+    res.status(200).json(quiz);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

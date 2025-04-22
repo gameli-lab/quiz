@@ -83,9 +83,9 @@ const Footer = () => {
         <div className="footer-section">
           <h4>Contact Us</h4>
           <ul>
-            <li>Email: support@quizmaster.com</li>
-            <li>Phone: (555) 123-4567</li>
-            <li>Address: 123 Education St</li>
+            <li>Email: btorfu@gmail.com</li>
+            <li>Phone: (233) 541813988</li>
+            <li>Address: Adeiso Methodist JHS</li>
           </ul>
         </div>
       </div>
