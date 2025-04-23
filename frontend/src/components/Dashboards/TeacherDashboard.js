@@ -98,10 +98,10 @@ const TeacherDashboard = () => {
     setLoading(true);
     try {
       const [quizzesRes, statsRes] = await Promise.all([
-        axios.get("/api/quiz/teacher", {
+        axios.get("https://quiz-master-2hwm.onrender.com/api/quiz/teacher", {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }),
-        axios.get("/api/teacher/stats", {
+        axios.get("https://quiz-master-2hwm.onrender.com/api/teacher/stats", {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }),
       ]);
@@ -127,9 +127,14 @@ const TeacherDashboard = () => {
   const handleDeleteQuiz = async (quizId) => {
     if (window.confirm("Are you sure you want to delete this quiz?")) {
       try {
-        await axios.delete(`/api/quiz/${quizId}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        await axios.delete(
+          `https://quiz-master-2hwm.onrender.com/api/quiz/${quizId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         fetchDashboardData();
       } catch (err) {
         console.error("Failed to delete quiz:", err.message);

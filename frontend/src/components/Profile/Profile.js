@@ -47,9 +47,14 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/users/me", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        const response = await axios.get(
+          "https://quiz-master-2hwm.onrender.com/api/users/me",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         setUserData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);

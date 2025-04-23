@@ -32,16 +32,22 @@ const QuizResultDetails = () => {
     const fetchData = async () => {
       try {
         const [quizResponse, resultsResponse] = await Promise.all([
-          axios.get(`/api/quiz/${quizId}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }),
-          axios.get(`/api/quizzes/results/${quizId}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }),
+          axios.get(
+            `https://quiz-master-2hwm.onrender.com/api/quiz/${quizId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          ),
+          axios.get(
+            `https://quiz-master-2hwm.onrender.com/api/quizzes/results/${quizId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          ),
         ]);
 
         setQuiz(quizResponse.data);

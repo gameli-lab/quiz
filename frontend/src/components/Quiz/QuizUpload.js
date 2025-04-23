@@ -60,12 +60,16 @@ const QuizUpload = () => {
     files.forEach((file) => submitData.append("files", file));
 
     try {
-      const response = await axios.post("/api/quizzes/create", submitData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.post(
+        "https://quiz-master-2hwm.onrender.com/api/quizzes/create",
+        submitData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       setSuccess(response.data.message);
       setFormData({

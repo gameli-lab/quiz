@@ -24,7 +24,10 @@ const Register = () => {
     setSuccess("");
 
     try {
-      const res = await axios.post("/api/auth/register", formData);
+      const res = await axios.post(
+        "https://quiz-master-2hwm.onrender.com/api/auth/register",
+        formData
+      );
       setSuccess(res.data.message); // Display success message
       setTimeout(() => {
         navigate("/login");

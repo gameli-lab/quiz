@@ -35,7 +35,9 @@ const ResetPassword = () => {
   useEffect(() => {
     const validateToken = async () => {
       try {
-        await axios.get(`/api/auth/reset-password/${token}`);
+        await axios.get(
+          `https://quiz-master-2hwm.onrender.com/api/auth/reset-password/${token}`
+        );
         setTokenValid(true);
       } catch (error) {
         setError("Invalid or expired reset link");

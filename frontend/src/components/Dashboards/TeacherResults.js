@@ -25,9 +25,14 @@ const TeacherResults = () => {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await axios.get("/api/quiz/teacher", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        const response = await axios.get(
+          "https://quiz-master-2hwm.onrender.com/api/quiz/teacher",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         setQuizzes(response.data);
       } catch (error) {
         console.error("Error fetching quizzes:", error);

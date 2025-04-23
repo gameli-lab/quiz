@@ -39,9 +39,14 @@ const QuizPage = () => {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await axios.get(`/api/quizzes/questions/${quizId}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        const response = await axios.get(
+          `https://quiz-master-2hwm.onrender.com/api/quizzes/questions/${quizId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         setQuiz(response.data);
         setTimeLeft(response.data.timeLimit * 60); // Set timer based on quiz time limit
       } catch (err) {
@@ -121,7 +126,7 @@ const QuizPage = () => {
 
       // Submit answers to backend
       const response = await axios.post(
-        `/api/quizzes/${quizId}/complete`,
+        `https://quiz-master-2hwm.onrender.com/api/quizzes/${quizId}/complete`,
         {
           answers,
           timeSpent,

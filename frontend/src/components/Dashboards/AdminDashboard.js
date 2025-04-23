@@ -48,16 +48,22 @@ const AdminDashboard = () => {
     const fetchDashboardData = async () => {
       try {
         const [analyticsRes, announcementsRes] = await Promise.all([
-          axios.get("/api/admin/analytics", {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }),
-          axios.get("/api/admin/announcements/recent", {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }),
+          axios.get(
+            "https://quiz-master-2hwm.onrender.com/api/admin/analytics",
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          ),
+          axios.get(
+            "https://quiz-master-2hwm.onrender.com/api/admin/announcements/recent",
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          ),
         ]);
 
         // If the averageScore is an object, extract the avg value

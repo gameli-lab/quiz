@@ -25,7 +25,10 @@ const Login = () => {
     setError("");
     setLoading(true);
     try {
-      const res = await axios.post("/api/auth/login", credentials);
+      const res = await axios.post(
+        "https://quiz-master-2hwm.onrender.com/api/auth/login",
+        credentials
+      );
       login(res.data.token);
       localStorage.setItem("token", res.data.token);
 

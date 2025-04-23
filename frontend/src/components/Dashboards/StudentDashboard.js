@@ -27,27 +27,36 @@ const StudentDashboard = () => {
       try {
         const [userRes, quizzesRes, completedRes, announcementsRes] =
           await Promise.all([
-            axios.get("/api/users/me", {
+            axios.get("https://quiz-master-2hwm.onrender.com/api/users/me", {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
             }),
-            axios.get("/api/quizzes/approved", {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }),
-            axios.get("/api/quizzes/completed", {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }),
+            axios.get(
+              "https://quiz-master-2hwm.onrender.com/api/quizzes/approved",
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            ),
+            axios.get(
+              "https://quiz-master-2hwm.onrender.com/api/quizzes/completed",
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            ),
             // Add this new request for announcements
-            axios.get("/api/quizzes/announcements", {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }),
+            axios.get(
+              "https://quiz-master-2hwm.onrender.com/api/quizzes/announcements",
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            ),
           ]);
 
         setUser(userRes.data);

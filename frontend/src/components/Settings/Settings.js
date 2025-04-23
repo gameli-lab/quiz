@@ -30,9 +30,12 @@ const Settings = () => {
 
   const fetchSettings = async () => {
     try {
-      const response = await axios.get("/api/users/settings", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      const response = await axios.get(
+        "https://quiz-master-2hwm.onrender.com/api/users/settings",
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       setSettings(response.data.settings);
       setLoading(false);
     } catch (error) {

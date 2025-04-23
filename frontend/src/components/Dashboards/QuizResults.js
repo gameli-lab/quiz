@@ -22,9 +22,14 @@ const QuizResults = () => {
   useEffect(() => {
     const fetchCompletedQuizzes = async () => {
       try {
-        const response = await axios.get("/api/quizzes/completed", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        const response = await axios.get(
+          "https://quiz-master-2hwm.onrender.com/api/quizzes/completed",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         setCompletedQuizzes(response.data);
       } catch (error) {
         console.error("Error fetching completed quizzes:", error);

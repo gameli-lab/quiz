@@ -26,9 +26,14 @@ const TeacherQuizzes = () => {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await axios.get("/api/quiz/teacher", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        const response = await axios.get(
+          "https://quiz-master-2hwm.onrender.com/api/quiz/teacher",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         setQuizzes(response.data);
       } catch (error) {
         console.error("Error fetching quizzes:", error);
@@ -55,9 +60,14 @@ const TeacherQuizzes = () => {
   const handleDeleteQuiz = async (quizId) => {
     if (window.confirm("Are you sure you want to delete this quiz?")) {
       try {
-        await axios.delete(`/api/quiz/${quizId}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        await axios.delete(
+          `https://quiz-master-2hwm.onrender.com/api/quiz/${quizId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         setQuizzes(quizzes.filter((quiz) => quiz._id !== quizId));
       } catch (err) {
         console.error("Failed to delete quiz:", err.message);

@@ -22,9 +22,14 @@ const AvailableQuizzes = () => {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await axios.get("/api/quizzes/approved", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        const response = await axios.get(
+          "https://quiz-master-2hwm.onrender.com/api/quizzes/approved",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         const groupedBySubject = groupQuizzesByCategory(
           response.data,
           "subject"
