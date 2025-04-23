@@ -18,9 +18,14 @@ const AdminAnalytics = () => {
     const fetchAnalytics = async () => {
       try {
         // Get all analytics in one call
-        const response = await axios.get("/api/admin/dashboard/stats", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        const response = await axios.get(
+          "https://quiz-master-2hwm.onrender.com/api/admin/dashboard/stats",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         setAnalytics({
           totalUsers: response.data.userStats.total || 0,

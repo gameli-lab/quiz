@@ -10,9 +10,12 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("/api/admin/users", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      const response = await axios.get(
+        "https://quiz-master-2hwm.onrender.com/api/admin/users",
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       setUsers(response.data.users);
       setLoading(false);
     } catch (err) {
@@ -25,12 +28,17 @@ const UserManagement = () => {
   const handleUserAction = async (userId, action) => {
     try {
       if (action === "delete") {
-        await axios.delete(`/api/admin/users/${userId}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        await axios.delete(
+          `https://quiz-master-2hwm.onrender.com/api/admin/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
       } else {
         await axios.post(
-          `/api/admin/users/${userId}/${action}`,
+          `https://quiz-master-2hwm.onrender.com/api/admin/users/${userId}/${action}`,
           {},
           {
             headers: {

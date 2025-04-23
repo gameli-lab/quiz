@@ -31,7 +31,10 @@ const ForgotPassword = () => {
     setError("");
 
     try {
-      await axios.post("/api/auth/forgot-password", { email });
+      await axios.post(
+        "https://quiz-master-2hwm.onrender.com/api/auth/forgot-password",
+        { email }
+      );
       setSuccess(true);
     } catch (error) {
       setError(

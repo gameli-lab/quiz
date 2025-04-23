@@ -63,9 +63,12 @@ const EmailTemplates = () => {
   const fetchTemplates = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/admin/email-templates", {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
+      const response = await axios.get(
+        "https://quiz-master-2hwm.onrender.com/api/admin/email-templates",
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
       setTemplates(response.data);
       setError("");
     } catch (err) {
@@ -82,7 +85,7 @@ const EmailTemplates = () => {
   const handleSaveTemplate = async () => {
     try {
       await axios.put(
-        `/api/admin/email-templates/${selectedTemplate._id}`,
+        `https://quiz-master-2hwm.onrender.com/api/admin/email-templates/${selectedTemplate._id}`,
         selectedTemplate,
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -99,7 +102,7 @@ const EmailTemplates = () => {
   const handleTestEmail = async () => {
     try {
       await axios.post(
-        "/api/admin/email-templates/test",
+        "https://quiz-master-2hwm.onrender.com/api/admin/email-templates/test",
         {
           templateId: selectedTemplate._id,
           testEmail,
@@ -135,7 +138,7 @@ const EmailTemplates = () => {
   const handleCloneTemplate = async (template) => {
     try {
       await axios.post(
-        "/api/admin/email-templates/clone",
+        "https://quiz-master-2hwm.onrender.com/api/admin/email-templates/clone",
         { templateId: template._id },
         {
           headers: { Authorization: localStorage.getItem("token") },

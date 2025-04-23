@@ -28,9 +28,12 @@ const AdminAnnouncements = () => {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await axios.get("/api/admin/announcements", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      const response = await axios.get(
+        "https://quiz-master-2hwm.onrender.com/api/admin/announcements",
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       setAnnouncements(response.data.announcements || []);
       setLoading(false);
     } catch (err) {
@@ -43,9 +46,13 @@ const AdminAnnouncements = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/admin/announcements", newAnnouncement, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      await axios.post(
+        "https://quiz-master-2hwm.onrender.com/api/admin/announcements",
+        newAnnouncement,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       setMessage("Announcement created successfully");
       setNewAnnouncement({ title: "", content: "" });
       fetchAnnouncements(); // Refresh announcements list
@@ -57,9 +64,12 @@ const AdminAnnouncements = () => {
 
   const handleDelete = async (announcementId) => {
     try {
-      await axios.delete(`/api/admin/announcements/${announcementId}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      await axios.delete(
+        `https://quiz-master-2hwm.onrender.com/api/admin/announcements/${announcementId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       setMessage("Announcement deleted successfully");
       fetchAnnouncements(); // Refresh announcements list
     } catch (err) {

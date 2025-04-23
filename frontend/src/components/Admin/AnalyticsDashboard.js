@@ -38,7 +38,7 @@ const AnalyticsDashboard = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `/api/system/analytics?range=${timeRange}`,
+        `https://quiz-master-2hwm.onrender.com/api/system/analytics?range=${timeRange}`,
         {
           headers: { Authorization: localStorage.getItem("token") },
         }

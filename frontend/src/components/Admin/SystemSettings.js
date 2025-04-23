@@ -28,9 +28,12 @@ const SystemSettings = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get("/api/system/settings", {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
+      const res = await axios.get(
+        "https://quiz-master-2hwm.onrender.com/api/system/settings",
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
       setSettings(res.data);
       setLoading(false);
     } catch (error) {
@@ -51,9 +54,13 @@ const SystemSettings = () => {
 
   const saveSettings = async () => {
     try {
-      await axios.put("/api/system/settings", settings, {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
+      await axios.put(
+        "https://quiz-master-2hwm.onrender.com/api/system/settings",
+        settings,
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
       setMessage("Settings saved successfully");
     } catch (error) {
       setError("Failed to save settings");

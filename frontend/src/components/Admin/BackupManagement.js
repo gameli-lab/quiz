@@ -48,9 +48,12 @@ const BackupManagement = () => {
   const fetchBackups = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/system/backups", {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
+      const response = await axios.get(
+        "https://quiz-master-2hwm.onrender.com/api/system/backups",
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
       setBackups(response.data);
       setError("");
     } catch (err) {
@@ -70,7 +73,7 @@ const BackupManagement = () => {
       setBackupInProgress(true);
       setError("");
       await axios.post(
-        "/api/system/backup",
+        "https://quiz-master-2hwm.onrender.com/api/system/backup",
         {},
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -88,7 +91,7 @@ const BackupManagement = () => {
   const scheduleBackup = async () => {
     try {
       await axios.post(
-        "/api/system/backup/schedule",
+        "https://quiz-master-2hwm.onrender.com/api/system/backup/schedule",
         {
           scheduledTime: scheduleTime,
         },
@@ -107,7 +110,7 @@ const BackupManagement = () => {
     try {
       setError("");
       await axios.post(
-        "/api/system/restore",
+        "https://quiz-master-2hwm.onrender.com/api/system/restore",
         {
           filepath: selectedBackup.path,
         },
@@ -126,9 +129,12 @@ const BackupManagement = () => {
     if (!window.confirm("Are you sure you want to delete this backup?")) return;
 
     try {
-      await axios.delete(`/api/system/backup/${backup._id}`, {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
+      await axios.delete(
+        `https://quiz-master-2hwm.onrender.com/api/system/backup/${backup._id}`,
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
       setSuccess("Backup deleted successfully");
       fetchBackups();
     } catch (err) {
@@ -139,7 +145,7 @@ const BackupManagement = () => {
   const downloadBackup = async (backup) => {
     try {
       const response = await axios.get(
-        `/api/system/backup/download/${backup._id}`,
+        `https://quiz-master-2hwm.onrender.com/api/system/backup/download/${backup._id}`,
         {
           headers: { Authorization: localStorage.getItem("token") },
           responseType: "blob",

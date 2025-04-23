@@ -10,9 +10,12 @@ const AdminQuizzes = () => {
 
   const fetchQuizzes = async () => {
     try {
-      const response = await axios.get("/api/admin/quizzes", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      const response = await axios.get(
+        "https://quiz-master-2hwm.onrender.com/api/admin/quizzes",
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       setQuizzes(response.data.quizzes);
       setLoading(false);
     } catch (err) {
@@ -25,12 +28,17 @@ const AdminQuizzes = () => {
   const handleQuizAction = async (quizId, action) => {
     try {
       if (action === "delete") {
-        await axios.delete(`/api/admin/quizzes/${quizId}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        await axios.delete(
+          `https://quiz-master-2hwm.onrender.com/api/admin/quizzes/${quizId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
       } else {
         await axios.post(
-          `/api/admin/quizzes/${quizId}/${action}`,
+          `https://quiz-master-2hwm.onrender.com/api/admin/quizzes/${quizId}/${action}`,
           {},
           {
             headers: {

@@ -72,9 +72,12 @@ const ResetPassword = () => {
     setError("");
 
     try {
-      await axios.post(`/api/auth/reset-password/${token}`, {
-        newPassword: formData.password,
-      });
+      await axios.post(
+        `https://quiz-master-2hwm.onrender.com/api/auth/reset-password/${token}`,
+        {
+          newPassword: formData.password,
+        }
+      );
 
       setSuccess(true);
       setTimeout(() => {

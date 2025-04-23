@@ -71,12 +71,20 @@ const SecurityMonitoring = () => {
         await Promise.all(
           [
             axios.get(
-              `/api/admin/security/login-attempts?range=${selectedTimeRange}`
+              `https://quiz-master-2hwm.onrender.com/api/admin/security/login-attempts?range=${selectedTimeRange}`
             ),
-            axios.get("/api/admin/security/active-sessions"),
-            axios.get("/api/admin/security/blocked-ips"),
-            axios.get("/api/admin/security/alerts"),
-            axios.get(`/api/admin/security/metrics?range=${selectedTimeRange}`),
+            axios.get(
+              "https://quiz-master-2hwm.onrender.com/api/admin/security/active-sessions"
+            ),
+            axios.get(
+              "https://quiz-master-2hwm.onrender.com/api/admin/security/blocked-ips"
+            ),
+            axios.get(
+              "https://quiz-master-2hwm.onrender.com/api/admin/security/alerts"
+            ),
+            axios.get(
+              `https://quiz-master-2hwm.onrender.com/api/admin/security/metrics?range=${selectedTimeRange}`
+            ),
           ].map((request) => request.catch((err) => ({ data: [] })))
         );
 
@@ -103,7 +111,7 @@ const SecurityMonitoring = () => {
   const handleBlockIP = async () => {
     try {
       await axios.post(
-        "/api/admin/security/block-ip",
+        "https://quiz-master-2hwm.onrender.com/api/admin/security/block-ip",
         {
           ip: ipToBlock,
           reason: blockReason,
@@ -123,9 +131,12 @@ const SecurityMonitoring = () => {
   // Handle session termination
   const handleTerminateSession = async (sessionId) => {
     try {
-      await axios.delete(`/api/admin/security/sessions/${sessionId}`, {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
+      await axios.delete(
+        `https://quiz-master-2hwm.onrender.com/api/admin/security/sessions/${sessionId}`,
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
       setSuccess("Session terminated successfully");
       fetchSecurityData();
     } catch (err) {
@@ -137,7 +148,7 @@ const SecurityMonitoring = () => {
   /*   const handleDismissAlert = async (alertId) => {
     try {
       await axios.put(
-        `/api/admin/security/alerts/${alertId}/dismiss`,
+        `https://quiz-master-2hwm.onrender.com/api/admin/security/alerts/${alertId}/dismiss`,
         {},
         {
           headers: { Authorization: localStorage.getItem("token") },

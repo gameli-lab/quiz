@@ -42,14 +42,20 @@ const QuizManagement = () => {
         const token = localStorage.getItem("token");
         const headers = { Authorization: `Bearer ${token}` };
 
-        const pendingResponse = await axios.get("/api/quizzes/pending", {
-          headers,
-        });
+        const pendingResponse = await axios.get(
+          "https://quiz-master-2hwm.onrender.com/api/quizzes/pending",
+          {
+            headers,
+          }
+        );
         setPendingQuizzes(pendingResponse.data);
 
-        const approvedResponse = await axios.get("/api/quizzes/approved", {
-          headers,
-        });
+        const approvedResponse = await axios.get(
+          "https://quiz-master-2hwm.onrender.com/api/quizzes/approved",
+          {
+            headers,
+          }
+        );
         setApprovedQuizzes(approvedResponse.data);
       } catch (error) {
         console.error("Error fetching quizzes:", error);
@@ -87,7 +93,11 @@ const QuizManagement = () => {
         formData.append("files", file);
       }
 
-      await axios.post("/api/quizzes/create", formData, { headers });
+      await axios.post(
+        "https://quiz-master-2hwm.onrender.com/api/quizzes/create",
+        formData,
+        { headers }
+      );
       alert("Quiz created successfully!");
       setShowCreateQuizForm(false);
       window.location.reload();
@@ -102,7 +112,11 @@ const QuizManagement = () => {
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
 
-      await axios.put(`/api/quizzes/approve/${quizId}`, {}, { headers });
+      await axios.put(
+        `https://quiz-master-2hwm.onrender.com/api/quizzes/approve/${quizId}`,
+        {},
+        { headers }
+      );
       alert("Quiz approved successfully!");
       window.location.reload();
     } catch (error) {
@@ -116,7 +130,10 @@ const QuizManagement = () => {
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
 
-      await axios.delete(`/api/quizzes/${quizId}`, { headers });
+      await axios.delete(
+        `https://quiz-master-2hwm.onrender.com/api/quizzes/${quizId}`,
+        { headers }
+      );
       alert("Quiz deleted successfully!");
       window.location.reload();
     } catch (error) {

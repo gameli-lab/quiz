@@ -55,9 +55,12 @@ const ActivityLogs = () => {
       if (filters.action) params.append("action", filters.action);
       if (filters.userId) params.append("userId", filters.userId);
 
-      const response = await axios.get(`/api/system/activity-logs?${params}`, {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
+      const response = await axios.get(
+        `https://quiz-master-2hwm.onrender.com/api/system/activity-logs?${params}`,
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
       setLogs(response.data);
     } catch (error) {
       console.error("Failed to fetch logs:", error);
